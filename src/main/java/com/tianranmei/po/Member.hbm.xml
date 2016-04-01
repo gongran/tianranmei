@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016-3-23 16:36:07 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="com.tianranmei.po.Member" table="MEMBER" optimistic-lock="version">
+        <id name="id" type="java.lang.Integer">
+            <column name="ID" />
+            <generator class="assigned" />
+        </id>
+        <property name="kahao" type="java.lang.String">
+            <column name="KAHAO" />
+        </property>
+        <property name="passWord" type="java.lang.String">
+            <column name="PASSWORD" />
+        </property>
+        <property name="phone" type="java.lang.String">
+            <column name="PHONE" />
+        </property>
+        <property name="name" type="java.lang.String">
+            <column name="NAME" />
+        </property>
+        <property name="sex" type="java.lang.String">
+            <column name="SEX" />
+        </property>
+        <property name="age" type="java.lang.Integer">
+            <column name="AGE" />
+        </property>
+        <property name="interest" type="java.lang.String">
+            <column name="INTEREST" />
+        </property>
+        <property name="constellationId" type="java.lang.Integer">
+            <column name="CONSTELLATIONID" />
+        </property>
+        <property name="zodiacId" type="java.lang.Integer">
+            <column name="ZODIACID" />
+        </property>
+        <property name="desc" type="java.lang.String">
+            <column name="DESC" />
+        </property>
+    </class>
+</hibernate-mapping>
