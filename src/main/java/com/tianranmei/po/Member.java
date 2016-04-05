@@ -11,7 +11,7 @@ public class Member {
 	private String interest;
 	private Integer constellationId;
 	private Integer zodiacId;
-	private String desc;
+	private String des;
 	public Integer getId() {
 		return id;
 	}
@@ -66,11 +66,11 @@ public class Member {
 	public void setZodiacId(Integer zodiacId) {
 		this.zodiacId = zodiacId;
 	}
-	public String getDesc() {
-		return desc;
+	public String getDes() {
+		return des;
 	}
-	public void setDesc(String desc) {
-		this.desc = desc;
+	public void setDes(String des) {
+		this.des = des;
 	}
 	public String getPassWord() {
 		return passWord;

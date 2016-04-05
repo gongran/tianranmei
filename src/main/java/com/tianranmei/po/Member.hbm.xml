@@ -35,8 +35,8 @@
         <property name="zodiacId" type="java.lang.Integer">
             <column name="ZODIACID" />
         </property>
-        <property name="desc" type="java.lang.String">
-            <column name="DESC" />
+        <property name="des" type="java.lang.String">
+            <column name="DES" />
         </property>
     </class>
 </hibernate-mapping>

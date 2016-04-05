@@ -23,6 +23,7 @@
 
         <action name="userAction_*" class="userAction" method="{1}">
             <result name="index">/index.jsp </result>
+            <result name="member">/member/member.jsp </result>
             <result type="json">
             <param name="root">dataMap</param>  
             </result>

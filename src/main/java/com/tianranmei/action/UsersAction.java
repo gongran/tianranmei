@@ -14,11 +14,12 @@ import com.tianranmei.service.MemberService;
 public class UsersAction extends ActionSupport {
 	private static final long serialVersionUID = 1L;
 	private static final Log log = LogFactory.getLog(UsersAction.class);
-	
+
 	private MemberService memberService;
-	private Map<String,Object> dataMap; 
-	
+	private Map<String, Object> dataMap;
+
 	private Member member;
+
 	public Map<String, Object> getDataMap() {
 		return dataMap;
 	}
@@ -35,29 +36,55 @@ public class UsersAction extends ActionSupport {
 		this.memberService = memberService;
 	}
 
-	public String loginUser(){
+	public String loginUser() {
 		dataMap = new HashMap<String, Object>();
-		List<Member> members=memberService.findMemberByCond(member);
-		if(members!=null&&members.size()>0){
-			 dataMap.put("success", true);
-			 dataMap.put("data", members);
-		}else{
-			 dataMap.put("success", false);
+		Member loginMember = new Member();
+		if (member != null) {
+			loginMember.setKahao(member.getKahao());
+			loginMember.setPassWord(member.getPassWord());
+		}
+		List<Member> members = memberService.findMemberByCond(loginMember);
+		if (members != null && members.size() > 0) {
+			dataMap.put("success", true);
+			member = members.get(0);
+		} else {
+			dataMap.put("success", false);
 		}
 		return SUCCESS;
 	}
-	
-	public String findMembers(){
-		dataMap = new HashMap<String, Object>();  
-		try{
-		List<Member> members=memberService.findAll();
-		dataMap.put("members", members);
-		// 放入一个是否操作成功的标识  
-        dataMap.put("success", true);  
-		}catch(Exception e){
+
+	/**
+	 * 编辑会员信息
+	 * 
+	 * @return
+	 */
+	public String editMember() {
+		dataMap = new HashMap<String, Object>();
+		try {
+			memberService.update(member);
+			dataMap.put("success", true);
+		} catch (Exception e) {
+			dataMap.put("success", false);
+			log.error(e);
+		}
+		return SUCCESS;
+	}
+
+	public String toMember() {
+		return "member";
+	}
+
+	public String findMembers() {
+		dataMap = new HashMap<String, Object>();
+		try {
+			List<Member> members = memberService.findAll();
+			dataMap.put("members", members);
+			// 放入一个是否操作成功的标识
+			dataMap.put("success", true);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-        return SUCCESS;  
+		return SUCCESS;
 	}
 
 	public Member getMember() {
