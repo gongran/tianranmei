@@ -1,42 +1,49 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 2016-3-23 16:36:07 by Hibernate Tools 4.3.1.Final -->
+<!-- Generated 2016-4-19 10:01:46 by Hibernate Tools 4.3.1.Final -->
 <hibernate-mapping>
-    <class name="com.tianranmei.po.Member" table="MEMBER" optimistic-lock="version">
+    <class name="com.tianranmei.po.Member" table="member" catalog="tianranmei" optimistic-lock="version">
         <id name="id" type="java.lang.Integer">
-            <column name="ID" />
-            <generator class="assigned" />
+            <column name="id" />
+            <generator class="identity" />
         </id>
-        <property name="kahao" type="java.lang.String">
-            <column name="KAHAO" />
+        <property name="kahao" type="string">
+            <column name="kahao" length="6">
+                <comment>&#187;&#225;&#212;&#177;&#191;&#168;&#186;&#197;</comment>
+            </column>
         </property>
-        <property name="passWord" type="java.lang.String">
-            <column name="PASSWORD" />
+        <property name="password" type="string">
+            <column name="password" length="20" />
         </property>
-        <property name="phone" type="java.lang.String">
-            <column name="PHONE" />
+        <property name="phone" type="string">
+            <column name="phone" length="11">
+                <comment>&#202;&#214;&#187;&#250;&#186;&#197;</comment>
+            </column>
         </property>
-        <property name="name" type="java.lang.String">
-            <column name="NAME" />
+        <property name="name" type="string">
+            <column name="name" length="20" />
         </property>
-        <property name="sex" type="java.lang.String">
-            <column name="SEX" />
+        <property name="sex" type="string">
+            <column name="sex" length="2" />
         </property>
         <property name="age" type="java.lang.Integer">
-            <column name="AGE" />
+            <column name="age" />
         </property>
-        <property name="interest" type="java.lang.String">
-            <column name="INTEREST" />
-        </property>
-        <property name="constellationId" type="java.lang.Integer">
-            <column name="CONSTELLATIONID" />
+        <property name="interest" type="string">
+            <column name="interest" length="30">
+                <comment>&#208;&#203;&#200;&#164;</comment>
+            </column>
         </property>
         <property name="zodiacId" type="java.lang.Integer">
-            <column name="ZODIACID" />
+            <column name="zodiacId">
+                <comment>&#202;&#244;&#207;&#224;</comment>
+            </column>
         </property>
-        <property name="des" type="java.lang.String">
-            <column name="DES" />
+        <property name="des" type="string">
+            <column name="des" length="300">
+                <comment>&#195;&#232;&#202;&#246;</comment>
+            </column>
         </property>
     </class>
 </hibernate-mapping>
