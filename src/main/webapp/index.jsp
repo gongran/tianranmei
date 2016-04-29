@@ -40,7 +40,7 @@
 				</tr>
 				<tr>
 					<td>密码：</td>
-					<td><input name="member.passWord" type="password" /></td>
+					<td><input name="member.password" type="password" /></td>
 				</tr>
 				<tr>
 					<td colspan="2"><input id="dl" type="button" value="登录" /></td>

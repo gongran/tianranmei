@@ -106,7 +106,7 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("\t\t\t\t</tr>\r\n");
       out.write("\t\t\t\t<tr>\r\n");
       out.write("\t\t\t\t\t<td>密码：</td>\r\n");
-      out.write("\t\t\t\t\t<td><input name=\"member.passWord\" type=\"password\" /></td>\r\n");
+      out.write("\t\t\t\t\t<td><input name=\"member.password\" type=\"password\" /></td>\r\n");
       out.write("\t\t\t\t</tr>\r\n");
       out.write("\t\t\t\t<tr>\r\n");
       out.write("\t\t\t\t\t<td colspan=\"2\"><input id=\"dl\" type=\"button\" value=\"登录\" /></td>\r\n");

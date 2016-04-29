@@ -2,5 +2,70 @@
 <!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd" >
 
 <hibernate-reverse-engineering>
-  <table-filter match-schema="tianranmei" match-name=".*"/>
+	<table-filter match-name="act_evt_log" match-catalog="tianranmei"></table-filter>
+	<table-filter match-name="act_ge_bytearray"
+		match-catalog="tianranmei">
+	</table-filter>
+	<table-filter match-name="act_ge_property"
+		match-catalog="tianranmei">
+	</table-filter>
+	<table-filter match-name="act_hi_actinst"
+		match-catalog="tianranmei">
+	</table-filter>
+	<table-filter match-name="act_hi_attachment"
+		match-catalog="tianranmei">
+	</table-filter>
+	<table-filter match-name="act_hi_comment"
+		match-catalog="tianranmei">
+	</table-filter>
+	<table-filter match-name="act_hi_detail"
+		match-catalog="tianranmei">
+	</table-filter>
+	<table-filter match-name="act_hi_identitylink"
+		match-catalog="tianranmei">
+	</table-filter>
+	<table-filter match-name="act_hi_procinst"
+		match-catalog="tianranmei">
+	</table-filter>
+	<table-filter match-name="act_hi_taskinst"
+		match-catalog="tianranmei">
+	</table-filter>
+	<table-filter match-name="act_hi_varinst"
+		match-catalog="tianranmei">
+	</table-filter>
+	<table-filter match-name="act_id_group"
+		match-catalog="tianranmei">
+	</table-filter>
+	<table-filter match-name="act_id_info" match-catalog="tianranmei"></table-filter>
+	<table-filter match-name="act_id_membership"
+		match-catalog="tianranmei">
+	</table-filter>
+	<table-filter match-name="act_id_user" match-catalog="tianranmei"></table-filter>
+	<table-filter match-name="act_procdef_info"
+		match-catalog="tianranmei">
+	</table-filter>
+	<table-filter match-name="act_re_deployment"
+		match-catalog="tianranmei">
+	</table-filter>
+	<table-filter match-name="act_re_model"
+		match-catalog="tianranmei">
+	</table-filter>
+	<table-filter match-name="act_re_procdef"
+		match-catalog="tianranmei">
+	</table-filter>
+	<table-filter match-name="act_ru_event_subscr"
+		match-catalog="tianranmei">
+	</table-filter>
+	<table-filter match-name="act_ru_execution"
+		match-catalog="tianranmei">
+	</table-filter>
+	<table-filter match-name="act_ru_identitylink"
+		match-catalog="tianranmei">
+	</table-filter>
+	<table-filter match-name="act_ru_job" match-catalog="tianranmei"></table-filter>
+	<table-filter match-name="act_ru_task" match-catalog="tianranmei"></table-filter>
+	<table-filter match-name="act_ru_variable"
+		match-catalog="tianranmei">
+	</table-filter>
+	<table-filter match-name="zodiak" match-catalog="tianranmei"></table-filter>
 </hibernate-reverse-engineering>

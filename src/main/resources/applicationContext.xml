@@ -9,16 +9,24 @@
         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd"
-	default-autowire="byType">
-
+	>
+	<import resource="spring.activiti.cfg.xml" />
 	<!-- 加载配置文件 -->
 	<context:property-placeholder location="classpath:db.properties" />
+	
+	<!-- 配置要扫描的包 -->
+	<context:component-scan base-package="com.tianranmei"></context:component-scan>
+	
+	<!-- 采用注释的方式配置bean -->
+	<context:annotation-config />
+	
+	
 	<!-- 配置 C3P0 数据源 -->
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
 		<property name="dataSourceName" value="dataSource" />
 		<property name="driverClass" value="${jdbc.driverClassName}" />
 		<property name="jdbcUrl" value="${jdbc.url}" />
-		<property name="user" value="root" /> 
+		<property name="user" value="root" />
 		<property name="password" value="root" />
 		<property name="maxPoolSize" value="15" />
 		<property name="minPoolSize" value="1" />
@@ -26,6 +34,8 @@
 		<property name="acquireIncrement" value="3" />
 		<property name="maxIdleTime" value="10" />
 	</bean>
+
+
 
 	<!-- 配置 SessionFactory -->
 	<bean id="sessionFactory"
@@ -41,7 +51,18 @@
 		class="org.springframework.orm.hibernate5.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
-
+	
+	<!-- 配置activiti流程引擎 -->
+	<!-- <bean id="processEngineConfiguration" class="org.activiti.spring.SpringProcessEngineConfiguration">
+		<property name="dataSource" ref="dataSource" />
+		<property name="transactionManager" ref="transactionManager" />
+		<property name="databaseSchemaUpdate" value="true" />
+		<property name="jobExecutorActivate" value="false" />
+	</bean>
+	<bean id="processEngine" class="org.activiti.spring.ProcessEngineFactoryBean">  
+        <property name="processEngineConfiguration" ref="processEngineConfiguration" />  
+    </bean> -->  
+    
 	<!-- 2. 配置事务属性 -->
 	<tx:advice id="txAdvice" transaction-manager="transactionManager">
 		<tx:attributes>
@@ -57,6 +78,20 @@
 			id="txPointcut" />
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="txPointcut" />
 	</aop:config>
+	
+	<!-- 这个是用activiti5几个主要的接口 -->  
+    <!-- <bean id="repositoryService" factory-bean="processEngine"  
+        factory-method="getRepositoryService" />  
+    <bean id="runtimeService" factory-bean="processEngine"  
+        factory-method="getRuntimeService" />  
+    <bean id="taskService" factory-bean="processEngine"  
+        factory-method="getTaskService" />  
+    <bean id="historyService" factory-bean="processEngine"  
+        factory-method="getHistoryService" />  
+    <bean id="managementService" factory-bean="processEngine"  
+        factory-method="getManagementService" />  
+    <bean id="identityService" factory-bean="processEngine"  
+        factory-method="getIdentityService" />  -->
 
 	<bean name="userAction" class="com.tianranmei.action.UsersAction">
 	</bean>

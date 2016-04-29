@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.tianranmei.po.Member;
@@ -15,6 +16,7 @@ public class UsersAction extends ActionSupport {
 	private static final long serialVersionUID = 1L;
 	private static final Log log = LogFactory.getLog(UsersAction.class);
 
+	@Autowired
 	private MemberService memberService;
 	private Map<String, Object> dataMap;
 
@@ -41,7 +43,7 @@ public class UsersAction extends ActionSupport {
 		Member loginMember = new Member();
 		if (member != null) {
 			loginMember.setKahao(member.getKahao());
-			loginMember.setPassWord(member.getPassWord());
+			loginMember.setPassword(member.getPassword());
 		}
 		List<Member> members = memberService.findMemberByCond(loginMember);
 		if (members != null && members.size() > 0) {

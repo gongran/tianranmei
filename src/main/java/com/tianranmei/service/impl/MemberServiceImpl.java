@@ -2,11 +2,14 @@ package com.tianranmei.service.impl;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.tianranmei.dao.MemberDao;
 import com.tianranmei.po.Member;
 import com.tianranmei.service.MemberService;
 
 public class MemberServiceImpl implements MemberService {
+	@Autowired
 	private MemberDao memberDao;
 
 	public MemberDao getMemberDao() {
