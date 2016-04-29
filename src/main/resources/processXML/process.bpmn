@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/processdef">
+  <process id="process" isExecutable="true">
+    <startEvent id="startevent1" name="Start" activiti:initiator="applyUserId">
+      <extensionElements>
+        <activiti:formProperty id="startDate" name="请假开始日期" type="date" datePattern="yyyy-MM-dd" required="true"></activiti:formProperty>
+        <activiti:formProperty id="endDate" name="请假结束日期" type="date" datePattern="yyyy-MM-dd" required="true"></activiti:formProperty>
+        <activiti:formProperty id="reason" name="请假原因" type="string" required="true"></activiti:formProperty>
+      </extensionElements>
+    </startEvent>
+    <userTask id="deptLeaderAudit" name="部门领导审批" activiti:candidateGroups="deptLeader">
+      <extensionElements>
+        <activiti:formProperty id="startDate" name="请假开始日期" type="date" expression="${startDate}" datePattern="yyyy-MM-dd" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="endDate" name="请假结束日期" type="date" expression="${endDate}" datePattern="yyyy-MM-dd" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="reason" name="请假原因" type="string" expression="${reason}" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="deptLeaderApprove" name="审批意见" type="enum" required="true">
+          <activiti:value id="true" name="同意"></activiti:value>
+          <activiti:value id="false" name="拒绝"></activiti:value>
+        </activiti:formProperty>
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="sid-57724E3B-0A3D-40C0-A6E2-C8075A4AE0A6" sourceRef="startevent1" targetRef="deptLeaderAudit"></sequenceFlow>
+    <endEvent id="sid-8CA5FE73-3794-4F38-922F-350C54C16B8F"></endEvent>
+    <exclusiveGateway id="exclusivegateway5" name="Exclusive Gateway"></exclusiveGateway>
+    <userTask id="hrAudit" name="人事审批" activiti:candidateGroups="hr">
+      <extensionElements>
+        <activiti:formProperty id="startDate" name="请假开始日期" type="date" variable="value=&quot;${startDate}&quot;" datePattern="yyyy-MM-dd" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="endDate" name="请假结束日期" type="date" variable="value=&quot;${endDate}&quot;" datePattern="yyyy-MM-dd" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="reason" name="请假原因" type="string" variable="value=&quot;${reason}&quot;" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="hrApprove" name="审批意见" type="enum">
+          <activiti:value id="true" name="同意"></activiti:value>
+          <activiti:value id="false" name="拒绝"></activiti:value>
+        </activiti:formProperty>
+      </extensionElements>
+    </userTask>
+    <exclusiveGateway id="exclusivegateway6" name="Exclusive Gateway"></exclusiveGateway>
+    <userTask id="reportBack" name="销假" activiti:candidateUsers="${applyUserId}">
+      <extensionElements>
+        <activiti:formProperty id="startDate" name="请假开始日期" type="date" variable="value=&quot;${startDate}&quot;" datePattern="yyyy-MM-dd"></activiti:formProperty>
+        <activiti:formProperty id="endDate" name="请假结束日期" type="date" variable="value=&quot;${endDate}&quot;" datePattern="yyyy-MM-dd"></activiti:formProperty>
+        <activiti:formProperty id="reason" name="请假原因" type="string" variable="value=&quot;${reason}&quot;"></activiti:formProperty>
+        <activiti:formProperty id="reportBackDate" name="销假日期" type="date" variable="default=&quot;${endDate}&quot;" datePattern="yyyy-MM-dd"></activiti:formProperty>
+      </extensionElements>
+    </userTask>
+    <userTask id="modifyApply" name="调整申请" activiti:assignee="${applyUserId}">
+      <extensionElements>
+        <activiti:formProperty id="startDate" name="请假开始日期" type="date" variable="value=&quot;${startDate}&quot;" datePattern="yyyy-MM-dd" required="true"></activiti:formProperty>
+        <activiti:formProperty id="endDate" name="请假结束日期" type="date" variable="value=&quot;${endDate}&quot;" datePattern="yyyy-MM-dd" required="true"></activiti:formProperty>
+        <activiti:formProperty id="reason" name="请假原因" type="string" variable="vakye=&quot;${reason}&quot;" required="true"></activiti:formProperty>
+        <activiti:formProperty id="reApply" name="重新申请" type="enum">
+          <activiti:value id="true" name="重新申请"></activiti:value>
+          <activiti:value id="false" name="取消申请"></activiti:value>
+        </activiti:formProperty>
+      </extensionElements>
+    </userTask>
+    <exclusiveGateway id="sid-5EC8730E-5FB9-4718-B8C6-BD57F080ACEC"></exclusiveGateway>
+    <sequenceFlow id="sid-ED9FE0D8-395C-4D5F-908C-22E6A6822EF4" sourceRef="modifyApply" targetRef="sid-5EC8730E-5FB9-4718-B8C6-BD57F080ACEC"></sequenceFlow>
+    <sequenceFlow id="flow8" name="销假" sourceRef="reportBack" targetRef="sid-8CA5FE73-3794-4F38-922F-350C54C16B8F">
+      <extensionElements>
+        <activiti:executionListener event="take" expression="${execution.setVariable('result','ok')}"></activiti:executionListener>
+      </extensionElements>
+    </sequenceFlow>
+    <sequenceFlow id="flow10" name="重新申请" sourceRef="sid-5EC8730E-5FB9-4718-B8C6-BD57F080ACEC" targetRef="deptLeaderAudit">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${reApply=='true'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow12" name="结束流程" sourceRef="sid-5EC8730E-5FB9-4718-B8C6-BD57F080ACEC" targetRef="sid-8CA5FE73-3794-4F38-922F-350C54C16B8F">
+      <extensionElements>
+        <activiti:executionListener event="take" expression="${execution.setVariable('result','canceled')}"></activiti:executionListener>
+      </extensionElements>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${reApply=='false'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="sid-2B86E68B-9C76-4982-A23B-5D0BDBF3F182" sourceRef="deptLeaderAudit" targetRef="exclusivegateway5"></sequenceFlow>
+    <sequenceFlow id="sid-755ACF2A-3422-49BB-8DC5-BE76915CFB3F" sourceRef="hrAudit" targetRef="exclusivegateway6"></sequenceFlow>
+    <sequenceFlow id="flow7" name="同意" sourceRef="exclusivegateway6" targetRef="reportBack">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${hrApprove=='true'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow9" name="拒绝" sourceRef="exclusivegateway6" targetRef="modifyApply">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${hrApprove=='false'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow4" name="拒绝" sourceRef="exclusivegateway5" targetRef="modifyApply">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${deptLeaderApprove=='false'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow5" name="同意" sourceRef="exclusivegateway5" targetRef="hrAudit">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${deptLeaderApprove=='true'}]]></conditionExpression>
+    </sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_process">
+    <bpmndi:BPMNPlane bpmnElement="process" id="BPMNPlane_process">
+      <bpmndi:BPMNShape bpmnElement="startevent1" id="BPMNShape_startevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="31.0" y="60.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="deptLeaderAudit" id="BPMNShape_deptLeaderAudit">
+        <omgdc:Bounds height="80.0" width="100.0" x="190.0" y="38.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="sid-8CA5FE73-3794-4F38-922F-350C54C16B8F" id="BPMNShape_sid-8CA5FE73-3794-4F38-922F-350C54C16B8F">
+        <omgdc:Bounds height="35.0" width="35.0" x="936.0" y="456.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway5" id="BPMNShape_exclusivegateway5">
+        <omgdc:Bounds height="40.0" width="40.0" x="417.0" y="45.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="hrAudit" id="BPMNShape_hrAudit">
+        <omgdc:Bounds height="80.0" width="100.0" x="573.0" y="26.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway6" id="BPMNShape_exclusivegateway6">
+        <omgdc:Bounds height="40.0" width="40.0" x="750.0" y="45.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="reportBack" id="BPMNShape_reportBack">
+        <omgdc:Bounds height="80.0" width="100.0" x="990.0" y="25.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="modifyApply" id="BPMNShape_modifyApply">
+        <omgdc:Bounds height="80.0" width="100.0" x="400.0" y="263.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="sid-5EC8730E-5FB9-4718-B8C6-BD57F080ACEC" id="BPMNShape_sid-5EC8730E-5FB9-4718-B8C6-BD57F080ACEC">
+        <omgdc:Bounds height="40.0" width="40.0" x="433.0" y="453.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="sid-57724E3B-0A3D-40C0-A6E2-C8075A4AE0A6" id="BPMNEdge_sid-57724E3B-0A3D-40C0-A6E2-C8075A4AE0A6">
+        <omgdi:waypoint x="66.0" y="77.0"></omgdi:waypoint>
+        <omgdi:waypoint x="190.0" y="78.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-ED9FE0D8-395C-4D5F-908C-22E6A6822EF4" id="BPMNEdge_sid-ED9FE0D8-395C-4D5F-908C-22E6A6822EF4">
+        <omgdi:waypoint x="450.0" y="343.0"></omgdi:waypoint>
+        <omgdi:waypoint x="453.0" y="453.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow8" id="BPMNEdge_flow8">
+        <omgdi:waypoint x="1040.0" y="105.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1040.0" y="470.0"></omgdi:waypoint>
+        <omgdi:waypoint x="971.0" y="473.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="14.0" width="100.0" x="1040.0" y="105.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow10" id="BPMNEdge_flow10">
+        <omgdi:waypoint x="433.0" y="473.0"></omgdi:waypoint>
+        <omgdi:waypoint x="245.0" y="470.0"></omgdi:waypoint>
+        <omgdi:waypoint x="240.0" y="118.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="14.0" width="100.0" x="436.0" y="483.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow12" id="BPMNEdge_flow12">
+        <omgdi:waypoint x="473.0" y="473.0"></omgdi:waypoint>
+        <omgdi:waypoint x="936.0" y="473.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="14.0" width="100.0" x="473.0" y="473.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-2B86E68B-9C76-4982-A23B-5D0BDBF3F182" id="BPMNEdge_sid-2B86E68B-9C76-4982-A23B-5D0BDBF3F182">
+        <omgdi:waypoint x="290.0" y="78.0"></omgdi:waypoint>
+        <omgdi:waypoint x="417.0" y="65.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-755ACF2A-3422-49BB-8DC5-BE76915CFB3F" id="BPMNEdge_sid-755ACF2A-3422-49BB-8DC5-BE76915CFB3F">
+        <omgdi:waypoint x="673.0" y="66.0"></omgdi:waypoint>
+        <omgdi:waypoint x="750.0" y="65.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow7" id="BPMNEdge_flow7">
+        <omgdi:waypoint x="790.0" y="65.0"></omgdi:waypoint>
+        <omgdi:waypoint x="990.0" y="65.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="14.0" width="100.0" x="790.0" y="65.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow9" id="BPMNEdge_flow9">
+        <omgdi:waypoint x="770.0" y="85.0"></omgdi:waypoint>
+        <omgdi:waypoint x="770.0" y="295.0"></omgdi:waypoint>
+        <omgdi:waypoint x="500.0" y="303.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="14.0" width="100.0" x="770.0" y="85.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow4" id="BPMNEdge_flow4">
+        <omgdi:waypoint x="437.0" y="85.0"></omgdi:waypoint>
+        <omgdi:waypoint x="450.0" y="263.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="14.0" width="100.0" x="437.0" y="85.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow5" id="BPMNEdge_flow5">
+        <omgdi:waypoint x="457.0" y="65.0"></omgdi:waypoint>
+        <omgdi:waypoint x="573.0" y="66.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="14.0" width="100.0" x="457.0" y="65.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>
