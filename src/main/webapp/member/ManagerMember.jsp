@@ -30,7 +30,10 @@
 									+ "</td><td>"
 									+ members[i].constellationId
 									+ "</td><td>"
-									+ members[i].phone + "</td></tr>";
+									+ members[i].phone 
+									+ "</td><td>"
+									+ "<a href=\"${ctx}/userAction_toMember?member.id="+members[i].id+"\">编辑</a>"
+									+"</tr>";
 						}
 						$("#membersTable").append(str);
 					}
@@ -54,6 +57,7 @@
 				<th>年龄</th>
 				<th>星座</th>
 				<th>电话</th>
+				<th>操作</th>
 			</tr>
 		</table>
 		</center>

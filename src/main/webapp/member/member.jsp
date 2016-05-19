@@ -13,16 +13,17 @@
 		$("#bc").click(function() {
 			$.ajax({
 				type : 'post',
-				url : '${ctx}/userAction_editMember',
+				url : '${ctx}/userAction_addOrUpdateMember',
 				data : $("form[name='editMemberForm']").serialize(),
 				cache : false,
 				dataType : 'json',
 				success : function(data) {
 					var con = data["success"];
+					var mid="${member.id }";
 					if (con) {
-						alert("修改成功！");
+						mid==""?alert("添加成功！"):alert("修改成功！");
 					} else {
-						alert("修改失败！");
+						mid==""?alert("添加失败！"):alert("修改成功！");
 					}
 				}
 			});
@@ -37,7 +38,7 @@
 </head>
 <body>
 	<form name="editMemberForm" action="userAction_editMember">
-	<input name="member.id" value="${member.id }"/>
+	<input type="hidden" name="member.id" value="${member.id }"/>
 		<center>
 			<table class="membertable">
 				<tr>

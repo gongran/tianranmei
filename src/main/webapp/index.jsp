@@ -17,7 +17,7 @@
 					var con = data["success"];
 					if (con) {
 						alert("登录成功！");
-						window.location="${ctx }/userAction_toMember";
+						window.location = "${ctx }/userAction_toMember";
 					} else {
 						alert("卡号密码不匹配！");
 					}
@@ -32,18 +32,25 @@
 		<center>
 			<table class="gridtable" width="50px">
 				<tr>
-					<th colspan="2"><h2>天然美会员管理系统</h2></th>
+					<th colspan="4"><h2>天然美会员管理系统</h2></th>
 				</tr>
 				<tr>
-					<td>卡号：</td>
-					<td><input name="member.kahao" type="text" /></td>
+					<td><a href="${ctx }/member/ManagerMember.jsp">会员管理</a></td>
+					<td><a href="${ctx }/member/login.jsp">登录</a></td>
+					<td></td>
+					<td></td>
 				</tr>
 				<tr>
-					<td>密码：</td>
-					<td><input name="member.password" type="password" /></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
 				</tr>
 				<tr>
-					<td colspan="2"><input id="dl" type="button" value="登录" /></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
 				</tr>
 			</table>
 		</center>

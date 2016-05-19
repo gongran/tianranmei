@@ -72,7 +72,39 @@ public class UsersAction extends ActionSupport {
 		return SUCCESS;
 	}
 
+	/**
+	 * 添加或编辑用户信息
+	 * 
+	 * @return
+	 */
+	public String addOrUpdateMember() {
+		dataMap = new HashMap<String, Object>();
+		try {
+			Integer id = member.getId();
+			if (id == null || id.equals(0)) {
+				memberService.add(member);
+			} else {
+				memberService.update(member);
+			}
+			dataMap.put("success", true);
+		} catch (Exception e) {
+			dataMap.put("success", false);
+			log.error(e);
+		}
+
+		return SUCCESS;
+	}
+
 	public String toMember() {
+		Integer id=null;
+		if(member!=null){
+			id=member.getId();
+			member=new Member();
+			member.setId(id);
+//			member.setName("abc");
+			List<Member> mems=memberService.findMemberByCond(member);
+			member=mems!=null?mems.get(0):null;
+		}
 		return "member";
 	}
 
